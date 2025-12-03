@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.xlsx
+*.xls
+files_to_upload/
+venv/
+.env
