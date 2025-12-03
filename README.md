@@ -21,9 +21,11 @@ pip install -r requirements.txt
 from file_uploader import FileUploader
 
 uploader = FileUploader(
-    api_url="https://your-api.com/upload",
+    api_url="https://worker.formextractorai.com/v2/extract",
     folder_path="./files",
-    excel_output_path="results.xlsx"
+    excel_output_path="results.xlsx",
+    access_token="YOUR_ACCESS_TOKEN",
+    extractor_id="YOUR_EXTRACTOR_ID"
 )
 uploader.process_folder()
 uploader.write_to_excel()
@@ -32,6 +34,7 @@ uploader.write_to_excel()
 ## Configuration
 
 Update the configuration in `file_uploader.py`:
-- `API_URL` - your API endpoint
+- `ACCESS_TOKEN` - your FormExtractorAI access token
+- `EXTRACTOR_ID` - your extractor ID
 - `FOLDER_PATH` - folder containing files to upload
 - `EXCEL_OUTPUT` - output Excel file path
