@@ -47,25 +47,76 @@ class InvoiceUploader:
         """Write all results to Excel sheet with invoice columns"""
         processed_data = []
         
+        # Process invoice data
+        
         for result in self.results:
             # Extract data from correct nested structure
             data = {}
             if 'documents' in result and len(result['documents']) > 0:
                 data = result['documents'][0].get('data', {})
             
-            row = {
-                'filename': result.get('filename', ''),
-                'B/L Number': data.get('bl_number', ''),
-                'Invoice Number': data.get('invoice_number', ''),
-                'Freight Charges Item/Charge Description': data.get('freight_charges_description', ''),
-                'Currency': data.get('currency', ''),
-                'Amount': data.get('amount', ''),
-                'Exchange Rate': data.get('exchange_rate', ''),
-                'Total Payment Amount': data.get('total_payment_amount', ''),
-                'Error': result.get('error', '')
-            }
+            # Extract header information
+            bl_number = data.get('master_ocean_or_airway_bill_no', '') or data.get('house_ocean_or_airway_bill_no', '')
+            invoice_number = data.get('invoice_number', '')
+            filename = result.get('filename', '')
+            error = result.get('error', '')
             
-            processed_data.append(row)
+            # Extract line items from details
+            line_items = data.get('line_items', [])
+            
+            if line_items:
+                # Create a row for each line item
+                for item in line_items:
+                    # Calculate amount = quantity * rate.value
+                    quantity = item.get('quantity', 0)
+                    rate = item.get('rate', {})
+                    rate_value = rate.get('value', 0) if isinstance(rate, dict) else 0
+                    
+                    try:
+                        amount = float(quantity) * float(rate_value) if quantity and rate_value else ''
+                    except (ValueError, TypeError):
+                        amount = ''
+                    
+                    # Get currency from rate or item_total
+                    currency = ''
+                    if isinstance(rate, dict):
+                        currency = rate.get('currency', '')
+                    
+                    # Total payment amount = item_total.value
+                    item_total = item.get('item_total', {})
+                    if isinstance(item_total, dict):
+                        total_payment = item_total.get('value', '')
+                    else:
+                        total_payment = ''
+                    
+                    exchange_rate = item.get('exchange_rate', '')
+                    
+                    row = {
+                        'filename': filename,
+                        'B/L Number': bl_number,
+                        'Invoice Number': invoice_number,
+                        'Charge Description': item.get('description', ''),
+                        'Currency': currency,
+                        'Amount': amount,
+                        'Exchange Rate': exchange_rate,
+                        'Total Payment Amount': total_payment,
+                        'Error': error
+                    }
+                    processed_data.append(row)
+            else:
+                # If no line items, create empty row with header info
+                row = {
+                    'filename': filename,
+                    'B/L Number': bl_number,
+                    'Invoice Number': invoice_number,
+                    'Charge Description': '',
+                    'Currency': '',
+                    'Amount': '',
+                    'Exchange Rate': '',
+                    'Total Payment Amount': '',
+                    'Error': error
+                }
+                processed_data.append(row)
         
         df = pd.DataFrame(processed_data)
         df.to_excel(self.excel_output_path, index=False)
