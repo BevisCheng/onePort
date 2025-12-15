@@ -121,8 +121,8 @@ class FileUploader:
 def main():
     # Configuration
     API_URL = "https://worker.formextractorai.com/v2/extract"
-    FOLDER_PATH = "files_to_upload"  # Replace with your folder path
-    EXCEL_OUTPUT = "shipping_data_cleaned.xlsx"
+    FOLDER_PATH = "si"  # Replace with your folder path
+    EXCEL_OUTPUT = "si_data.xlsx"
     ACCESS_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZV9vd25lcl9pZCI6IjJkMWNlMzZkLWM3NTAtNDc4OS1hOTVjLTYxOWQwMTdhYTZlMSIsIndvcmtlcl90b2tlbl9pZCI6IjhlZTZkNzJjLWRlYzItNDAwNi05MDQyLTg5ZTRjNzRjMTQyNiJ9.qia0zCgdK-fx1YadnvGcnt-6813oPTt3z4_C8M1UZG8"
     EXTRACTOR_ID = "023fe11d-ef3e-4ae5-b75a-2efab8022c2d"
     

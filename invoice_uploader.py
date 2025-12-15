@@ -125,8 +125,8 @@ class InvoiceUploader:
 def main():
     # Configuration - UPDATE WITH NEW CREDENTIALS
     API_URL = "https://worker.formextractorai.com/v2/extract"
-    FOLDER_PATH = "files_to_upload"
-    EXCEL_OUTPUT = "invoice_data.xlsx"
+    FOLDER_PATH = "SI"
+    EXCEL_OUTPUT = "si_data.xlsx"
     ACCESS_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZV9vd25lcl9pZCI6IjJkMWNlMzZkLWM3NTAtNDc4OS1hOTVjLTYxOWQwMTdhYTZlMSIsIndvcmtlcl90b2tlbl9pZCI6IjhlZTZkNzJjLWRlYzItNDAwNi05MDQyLTg5ZTRjNzRjMTQyNiJ9.qia0zCgdK-fx1YadnvGcnt-6813oPTt3z4_C8M1UZG8"
     EXTRACTOR_ID = "1f3d0e72-6407-4b12-aeb8-3f3eb42ab6e7"
     
